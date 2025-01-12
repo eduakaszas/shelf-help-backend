@@ -16,6 +16,17 @@ public class ItemsController : ControllerBase
     var items = await _itemService.GetAllAsync();
     return Ok(items);
   }
+  
+  [HttpGet("debug")]
+  public async Task<IActionResult> DebugDatabase()
+  {
+    var items = await _itemService.GetAllAsync();
+    return Ok(new
+    {
+      Count = items.Count(),
+      Items = items
+    });
+  }
 
   [HttpPost]
   public async Task<IActionResult> Add([FromBody] ItemCreateDto newItem)

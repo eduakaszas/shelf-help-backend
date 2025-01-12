@@ -1,3 +1,5 @@
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +7,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Add database context
+builder.Services.AddDbContext<DatabaseContext>(options =>
+{
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
+// Add CORS policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("FrontendPolicy", policy =>
@@ -16,9 +25,8 @@ builder.Services.AddCors(options =>
     });
 });
 
-
-// Register the ItemService with the DI container
-builder.Services.AddSingleton<IItemService, ItemService>();
+// Update service registration to use scoped
+builder.Services.AddScoped<IItemService, ItemService>();
 
 var app = builder.Build();
 

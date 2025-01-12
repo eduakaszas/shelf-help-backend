@@ -1,24 +1,32 @@
+using Microsoft.EntityFrameworkCore;
+
 public class ItemService : IItemService
 {
-    private readonly List<Item> _items = new(); // Temporary storage
-
+    private readonly DatabaseContext _context;
+    
+    public ItemService(DatabaseContext context)
+    {
+        _context = context;
+    }
+    
     public async Task<IEnumerable<Item>> GetAllAsync()
     {
-        return await Task.FromResult(_items);
+        return await _context.Items.ToListAsync();
     }
-
+    
     public async Task<Item> AddAsync(ItemCreateDto newItem)
     {
         var newItemEntity = new Item
         {
-            Id = _items.Count + 1, // Auto-increment ID
             Name = newItem.Name,
             Count = newItem.Count,
             ExpirationDate = newItem.ExpirationDate,
             ConsumptionRate = newItem.ConsumptionRate
         };
-
-        _items.Add(newItemEntity);
-        return await Task.FromResult(newItemEntity);
+        
+        _context.Items.Add(newItemEntity);
+        await _context.SaveChangesAsync();
+        
+        return newItemEntity;
     }
 }

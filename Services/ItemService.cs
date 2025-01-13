@@ -29,4 +29,19 @@ public class ItemService : IItemService
         
         return newItemEntity;
     }
+    
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var item = await _context.Items.FindAsync(id);
+        
+        if (item == null)
+        {
+            return false;
+        }
+
+        _context.Items.Remove(item);
+        await _context.SaveChangesAsync();
+        return true;
+    }
 }

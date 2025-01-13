@@ -17,21 +17,23 @@ public class ItemsController : ControllerBase
     return Ok(items);
   }
   
-  [HttpGet("debug")]
-  public async Task<IActionResult> DebugDatabase()
-  {
-    var items = await _itemService.GetAllAsync();
-    return Ok(new
-    {
-      Count = items.Count(),
-      Items = items
-    });
-  }
-
   [HttpPost]
   public async Task<IActionResult> Add([FromBody] ItemCreateDto newItem)
   {
     var createdItem = await _itemService.AddAsync(newItem);
     return CreatedAtAction(nameof(GetAll), new { id = createdItem.Id }, createdItem);
+  }
+  
+  [HttpDelete("{id}")]
+  public async Task<IActionResult> Delete(int id)  // or Guid id, depending on your ID type
+  {
+    var result = await _itemService.DeleteAsync(id);
+    
+    if (!result)
+    {
+      return NotFound();
+    }
+    
+    return NoContent();
   }
 }

@@ -16,10 +16,9 @@ builder.Services.AddDbContext<DatabaseContext>(options =>
 // Add CORS policy
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("FrontendPolicy", policy =>
+    options.AddDefaultPolicy(policyBuilder =>
     {
-        // @TODO obviously not great long term, but for now it's fine
-        policy.WithOrigins("http://localhost:8081")
+        policyBuilder.AllowAnyOrigin()
             .AllowAnyMethod()
             .AllowAnyHeader();
     });
@@ -37,7 +36,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("FrontendPolicy");
+app.UseCors();
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

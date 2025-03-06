@@ -29,6 +29,25 @@ public class ItemService : IItemService
         
         return newItemEntity;
     }
+
+    public async Task<Item> EditTaskAsync(int id, ItemCreateDto newItem)
+    {
+        var item = await _context.Items.FindAsync(id);
+        
+        if (item == null)
+        {
+            return null;
+        }
+        
+        item.Name = newItem.Name;
+        item.Count = newItem.Count;
+        item.ExpirationDate = newItem.ExpirationDate;
+        item.ConsumptionRate = newItem.ConsumptionRate;
+        
+        await _context.SaveChangesAsync();
+        
+        return item;
+    }
     
 
     public async Task<bool> DeleteAsync(int id)

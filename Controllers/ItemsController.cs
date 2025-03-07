@@ -36,4 +36,17 @@ public class ItemsController : ControllerBase
     
     return NoContent();
   }
+  
+  [HttpPut("{id}")]
+  public async Task<IActionResult> Update(int id, [FromBody] ItemCreateDto updatedItem)
+  {
+    var result = await _itemService.UpdateAsync(id, updatedItem);
+    
+    if (result == null)
+    {
+      return NotFound();
+    }
+    
+    return Ok(result);
+  }
 }

@@ -30,7 +30,7 @@ public class ItemService : IItemService
         return newItemEntity;
     }
 
-    public async Task<Item> EditTaskAsync(int id, ItemCreateDto newItem)
+    public async Task<Item> UpdateAsync(int id, ItemCreateDto updatedItem)
     {
         var item = await _context.Items.FindAsync(id);
         
@@ -39,10 +39,10 @@ public class ItemService : IItemService
             return null;
         }
         
-        item.Name = newItem.Name;
-        item.Count = newItem.Count;
-        item.ExpirationDate = newItem.ExpirationDate;
-        item.ConsumptionRate = newItem.ConsumptionRate;
+        item.Name = updatedItem.Name;
+        item.Count = updatedItem.Count;
+        item.ExpirationDate = updatedItem.ExpirationDate;
+        item.ConsumptionRate = updatedItem.ConsumptionRate;
         
         await _context.SaveChangesAsync();
         

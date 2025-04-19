@@ -22,6 +22,9 @@ namespace _.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
 
+                    b.Property<string>("Category")
+                        .HasColumnType("TEXT");
+
                     b.Property<float>("ConsumptionRate")
                         .HasColumnType("REAL");
 

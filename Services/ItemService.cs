@@ -21,7 +21,8 @@ public class ItemService : IItemService
             Name = newItem.Name,
             Count = newItem.Count,
             ExpirationDate = newItem.ExpirationDate,
-            ConsumptionRate = newItem.ConsumptionRate
+            ConsumptionRate = newItem.ConsumptionRate,
+            Category = newItem.Category
         };
         
         _context.Items.Add(newItemEntity);
@@ -43,17 +44,18 @@ public class ItemService : IItemService
         item.Count = updatedItem.Count;
         item.ExpirationDate = updatedItem.ExpirationDate;
         item.ConsumptionRate = updatedItem.ConsumptionRate;
+        item.Category = updatedItem.Category;
         
         await _context.SaveChangesAsync();
         
         return item;
     }
-    
+
 
     public async Task<bool> DeleteAsync(int id)
     {
         var item = await _context.Items.FindAsync(id);
-        
+
         if (item == null)
         {
             return false;

@@ -17,6 +17,7 @@ public class DatabaseContext : DbContext
             entity.Property(e => e.Count).IsRequired();
             entity.Property(e => e.ExpirationDate).IsRequired(false);
             entity.Property(e => e.ConsumptionRate).IsRequired();
+            entity.Property(e => e.Category).IsRequired(false);
         });
     }
 }
